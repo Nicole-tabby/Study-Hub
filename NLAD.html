@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Study Hub - Share and organize your study materials with classmates">
+  <title>Study Hub | Share Study Materials</title>
+  <!-- Nunito Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Nunito+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Base Styles */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      /* Green Color Palette */
+      --studyhub-50: #f0f9f0;
+      --studyhub-100: #dcf1dc;
+      --studyhub-200: #bce3bd;
+      --studyhub-300: #8dce8f;
+      --studyhub-400: #5bb35e;
+      --studyhub-500: #3c973f;
+      --studyhub-600: #2b7a2e;
+      --studyhub-700: #246028;
+      --studyhub-800: #204d23;
+      --studyhub-900: #1c4020;
+      
+      --background: #ffffff;
+      --foreground: #111827;
+      --primary: var(--studyhub-500);
+      --primary-foreground: #ffffff;
+      
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      
+      --error-500: #ef4444;
+      --error-100: #fee2e2;
+    }
+    
+    body {
+      font-family: 'Nunito Sans', sans-serif;
+      color: var(--foreground);
+      background-color: var(--background);
+      line-height: 1.5;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    /* Utility Classes (Tailwind-like) */
+    .min-h-screen { min-height: 100vh; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-1 { flex: 1 1 0%; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-6 { gap: 1.5rem; }
+    .gap-8 { gap: 2rem; }
+    .gap-12 { gap: 3rem; }
+    
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+    .space-y-8 > * + * { margin-top: 2rem; }
+    
+    .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+    .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+    
+    .my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+    .mb-1 { margin-bottom: 0.25rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-12 { margin-top: 3rem; }
+    .mt-24 { margin-top: 6rem; }
+    
+    .w-full { width: 100%; }
+    .h-auto { height: auto; }
+    .h-8 { height: 2rem; }
+    .h-10 { height: 2.5rem; }
+    .h-11 { height: 2.75rem; }
+    .h-12 { height: 3rem; }
+    
+    .text-center { text-align: center; }
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-base { font-size: 1rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-3xl { font-size: 1.875rem; }
+    .text-4xl { font-size: 2.25rem; }
+    .text-5xl { font-size: 3rem; }
+    .text-6xl { font-size: 3.75rem; }
+    
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    
+    .tracking-tight { letter-spacing: -0.025em; }
+    
+    .text-white { color: #ffffff; }
+    .text-gray-400 { color: var(--gray-400); }
+    .text-gray-500 { color: var(--gray-500); }
+    .text-gray-600 { color: var(--gray-600); }
+    .text-gray-700 { color: var(--gray-700); }
+    .text-studyhub-500 { color: var(--studyhub-500); }
+    .text-studyhub-600 { color: var(--studyhub-600); }
+    .text-studyhub-700 { color: var(--studyhub-700); }
+    .text-studyhub-800 { color: var(--studyhub-800); }
+    .text-error-500 { color: var(--error-500); }
+    
+    .bg-white { background-color: #ffffff; }
+    .bg-gray-50 { background-color: var(--gray-50); }
+    .bg-gray-100 { background-color: var(--gray-100); }
+    .bg-studyhub-50 { background-color: var(--studyhub-50); }
+    .bg-studyhub-100 { background-color: var(--studyhub-100); }
+    .bg-studyhub-500 { background-color: var(--studyhub-500); }
+    .bg-studyhub-600 { background-color: var(--studyhub-600); }
+    .bg-error-100 { background-color: var(--error-100); }
+    
+    .border { border-width: 1px; }
+    .border-t { border-top-width: 1px; }
+    .border-b { border-bottom-width: 1px; }
+    .border-gray-100 { border-color: var(--gray-100); }
+    .border-gray-200 { border-color: var(--gray-200); }
+    .border-white { border-color: #ffffff; }
+    .border-error-500 { border-color: var(--error-500); }
+    
+    .rounded { border-radius: 0.25rem; }
+    .rounded-md { border-radius: 0.375rem; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded-xl { border-radius: 0.75rem; }
+    .rounded-full { border-radius: 9999px; }
+    
+    .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    .shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+    
+    .overflow-hidden { overflow: hidden; }
+    
+    .transition-colors { transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+    .transition-shadow { transition: box-shadow 0.2s; }
+    .transition-transform { transition: transform 0.2s; }
+    
+    .hover\:bg-studyhub-50:hover { background-color: var(--studyhub-50); }
+    .hover\:bg-studyhub-600:hover { background-color: var(--studyhub-600); }
+    .hover\:shadow-md:hover { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .hover\:underline:hover { text-decoration: underline; }
+    
+    .hidden { display: none; }
+    .block { display: block; }
+    .inline-block { display: inline-block; }
+    
+    .absolute { position: absolute; }
+    .relative { position: relative; }
+    .sticky { position: sticky; }
+    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    .top-0 { top: 0; }
+    .right-3 { right: 0.75rem; }
+    .z-10 { z-index: 10; }
+    .z-50 { z-index: 50; }
+    .z-1000 { z-index: 1000; }
+    
+    .grid { display: grid; }
+    .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    
+    /* Logo Animation */
+    .logo-animation .triangle {
+      transform-origin: center;
+      transition: transform 0.3s ease, fill 0.3s ease;
+    }
+    
+    .logo-animation:hover .triangle-1 {
+      transform: translateY(-3px);
+      fill: var(--studyhub-400);
+    }
+    
+    .logo-animation:hover .triangle-2 {
+      transform: translateX(-3px);
+      fill: var(--studyhub-500);
+    }
+    
+    .logo-animation:hover .triangle-3 {
+      transform: translateX(3px);
+      fill: var(--studyhub-500);
+    }
+    
+    .logo-animation:hover .triangle-4 {
+      transform: translateY(-5px);
+      fill: var(--studyhub-300);
+    }
+    
+    /* Form Styles */
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--gray-300);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      outline: none;
+      font-family: 'Nunito Sans', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--studyhub-500);
+      box-shadow: 0 0 0 2px rgba(60, 151, 63, 0.2);
+    }
+    
+    input.error, select.error, textarea.error {
+      border-color: var(--error-500);
+    }
+    
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--gray-700);
+      font-family: 'Nunito', sans-serif;
+    }
+    
+    .error-message {
+      color: var(--error-500);
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      display: none;
+    }
+    
+    button {
+      cursor: pointer;
+      font-weight: 600;
+      border: none;
+      border-radius: 0.375rem;
+      font-family: 'Nunito', sans-serif;
+      transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    button:hover {
+      transform: translateY(-1px);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    button:focus-visible {
+      outline: 2px solid var(--studyhub-500);
+      outline-offset: 2px;
+    }
+    
+    button.primary {
+      background-color: var(--studyhub-500);
+      color: white;
+    }
+    
+    button.primary:hover {
+      background-color: var(--studyhub-600);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    button.outline {
+      background-color: transparent;
+      border: 1px solid var(--studyhub-200);
+      color: var(--studyhub-700);
+    }
+    
+    button.outline:hover {
+      background-color: var(--studyhub-50);
+    }
+    
+    button.ghost {
+      background-color: transparent;
+      color: var(--gray-600);
+    }
+    
+    button.ghost:hover {
+      background-color: var(--gray-100);
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    a:focus-visible {
+      outline: 2px solid var(--studyhub-500);
+      outline-offset: 2px;
+      border-radius: 0.25rem;
+    }
+    
+    .card {
+      background-color: white;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    
+    .card:hover {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Page specific styles */
+    .page {
+      display: none;
+    }
+    
+    .page.active {
+      display: block;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Skip to content link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      background: var(--studyhub-500);
+      color: white;
+      padding: 8px;
+      z-index: 100;
+      transition: top 0.3s;
+    }
+    
+    .skip-link:focus {
+      top: 0;
+    }
+    
+    /* Responsive Styles */
+    @media (min-width: 640px) {
+      .sm\:flex-row { flex-direction: row; }
+      .sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    
+    @media (min-width: 768px) {
+      .md\:flex { display: flex; }
+      .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .md\:flex-row { flex-direction: row; }
+      .md\:text-5xl { font-size: 3rem; }
+      .md\:w-1\/2 { width: 50%; }
+      .md\:mb-0 { margin-bottom: 0; }
+    }
+    
+    @media (min-width: 1024px) {
+      .lg\:text-6xl { font-size: 3.75rem; }
+      .lg\:block { display: block; }
+      .lg\:w-1\/2 { width: 50%; }
+      .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+    
+    @media (min-width: 1280px) {
+      .xl\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+    
+    /* Hero image container to prevent overlap */
+    .hero-image-container {
+      position: relative;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      aspect-ratio: 16/9;
+      max-height: 500px;
+    }
+    
+    .hero-image-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, rgba(28, 64, 32, 0.2), transparent);
+    }
+  </style>
+</head>
+<body>
+  <!-- Skip to content link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to content</a>
+  
+  <!-- Main App Container -->
+  <div id="app">
+    <!-- Landing Page (Index) -->
+    <div id="index-page" class="page active fade-in">
+      <div class="min-h-screen flex flex-col">
+        <!-- Navigation Bar -->
+        <header class="border-b border-gray-200 bg-white py-4 px-6 sticky top-0 z-50 w-full">
+          <div class="container mx-auto">
+            <div class="flex h-16 items-center justify-between">
+              <!-- Logo -->
+              <a href="#" class="flex items-center gap-2" onclick="navigateTo('index-page')" aria-label="Study Hub Home">
+                <div class="logo-animation h-8 w-8" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="triangle triangle-1" d="M30 20L50 60L10 60L30 20Z" fill="#3c973f" />
+                    <path class="triangle triangle-2" d="M30 100L10 60L50 60L30 100Z" fill="#2b7a2e" />
+                    <path class="triangle triangle-3" d="M90 100L70 60L110 60L90 100Z" fill="#2b7a2e" />
+                    <path class="triangle triangle-4" d="M60 40L90 100L30 100L60 40Z" fill="#5bb35e" />
+                  </svg>
+                </div>
+                <span class="font-semibold text-xl">Study Hub</span>
+              </a>
+              
+              <!-- Navigation Links -->
+              <nav class="hidden md:flex items-center space-x-6" aria-label="Main navigation">
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Upload Notes</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600" onclick="navigateTo('browse-page')">Browse Materials</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Study Tools</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Support Center</a>
+              </nav>
+              
+              <!-- Auth Buttons -->
+              <div class="flex items-center gap-3">
+                <button class="ghost text-sm px-4 py-2" onclick="navigateTo('login-page')">
+                  Sign in
+                </button>
+                <button class="primary text-sm px-4 py-2" onclick="navigateTo('register-page')">
+                  Sign up
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        
+        <main id="main-content" class="flex-1 my-8">
+          <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+              <div class="flex flex-col space-y-6 fade-in">
+                <div>
+                  <span class="inline-block px-3 py-1 rounded-full bg-studyhub-100 text-studyhub-800 text-sm font-medium mb-4">
+                    For students, by students
+                  </span>
+                  <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                    Streamline Your Study Materials
+                  </h1>
+                  <p class="mt-4 text-lg text-gray-600 max-w-xl">
+                    Study Hub transforms study material sharing for students worldwide. Upload, find, and organize your notes in one place.
+                  </p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4">
+                  <button class="primary px-6 py-3" onclick="navigateTo('register-page')">
+                    Sign Up
+                  </button>
+                  <button class="outline px-6 py-3" onclick="navigateTo('browse-page')">
+                    Browse Materials
+                  </button>
+                </div>
+                
+                <div class="flex items-center space-x-4 text-sm text-gray-500">
+                  <div class="flex -space-x-2">
+                    <div class="w-8 h-8 rounded-full bg-studyhub-100 border-2 border-white flex items-center justify-center text-xs font-medium text-studyhub-600">
+                      A
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-studyhub-100 border-2 border-white flex items-center justify-center text-xs font-medium text-studyhub-600">
+                      B
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-studyhub-100 border-2 border-white flex items-center justify-center text-xs font-medium text-studyhub-600">
+                      C
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-studyhub-100 border-2 border-white flex items-center justify-center text-xs font-medium text-studyhub-600">
+                      D
+                    </div>
+                  </div>
+                  <span>Join 10,000+ students already sharing notes</span>
+                </div>
+              </div>
+              
+              <div class="hero-image-container fade-in">
+                <img 
+                  src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1673&q=80" 
+                  alt="Study materials organized on a desk with green accents" 
+                  class="w-full h-auto object-cover"
+                  loading="lazy"
+                />
+                <div class="hero-image-overlay"></div>
+              </div>
+            </div>
+            
+            <div class="mt-24 text-center fade-in">
+              <h2 class="text-2xl font-bold mb-8">Why students love Study Hub</h2>
+              <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                  <div class="w-12 h-12 rounded-full bg-studyhub-100 text-studyhub-600 flex items-center justify-center mb-4 mx-auto">
+                    1
+                  </div>
+                  <h3 class="font-bold text-lg mb-2">Easy Note Sharing</h3>
+                  <p class="text-gray-600">Upload and share your study materials with classmates in seconds</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                  <div class="w-12 h-12 rounded-full bg-studyhub-100 text-studyhub-600 flex items-center justify-center mb-4 mx-auto">
+                    2
+                  </div>
+                  <h3 class="font-bold text-lg mb-2">Find What You Need</h3>
+                  <p class="text-gray-600">Search for notes by course, semester, or year to find exactly what you need</p>
+                </div>
+                <div class="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                  <div class="w-12 h-12 rounded-full bg-studyhub-100 text-studyhub-600 flex items-center justify-center mb-4 mx-auto">
+                    3
+                  </div>
+                  <h3 class="font-bold text-lg mb-2">Build Your Network</h3>
+                  <p class="text-gray-600">Connect with other students in your courses and collaborate effectively</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+        
+        <footer class="bg-gray-50 border-t border-gray-100 py-12">
+          <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+              <div class="mb-6 md:mb-0">
+                <div class="flex items-center gap-2">
+                  <div class="logo-animation h-8 w-8">
+                    <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path class="triangle triangle-1" d="M30 20L50 60L10 60L30 20Z" fill="#3c973f" />
+                      <path class="triangle triangle-2" d="M30 100L10 60L50 60L30 100Z" fill="#2b7a2e" />
+                      <path class="triangle triangle-3" d="M90 100L70 60L110 60L90 100Z" fill="#2b7a2e" />
+                      <path class="triangle triangle-4" d="M60 40L90 100L30 100L60 40Z" fill="#5bb35e" />
+                    </svg>
+                  </div>
+                  <span class="font-semibold text-xl">Study Hub</span>
+                </div>
+                <p class="text-gray-500 text-sm mt-2">
+                  Simplifying study material sharing since 2023
+                </p>
+              </div>
+              <div class="flex space-x-8">
+                <div>
+                  <h4 class="font-medium mb-3">Platform</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-500 hover:text-studyhub-600 text-sm">Browse Notes</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-studyhub-600 text-sm">Upload Materials</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-studyhub-600 text-sm">Study Tools</a></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 class="font-medium mb-3">Company</h4>
+                  <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-500 hover:text-studyhub-600 text-sm">About Us</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-studyhub-600 text-sm">Support</a></li>
+                    <li><a href="#" class="text-gray-500 hover:text-studyhub-600 text-sm">Privacy</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="border-t border-gray-200 mt-12 pt-6 text-center text-gray-500 text-sm">
+              © <span id="current-year"></span> Study Hub. All rights reserved.
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+    
+    <!-- Login Page -->
+    <div id="login-page" class="page">
+      <div class="min-h-screen flex flex-col">
+        <header class="border-b border-gray-200 py-4 px-6">
+          <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2" onclick="navigateTo('index-page')" aria-label="Study Hub Home">
+              <div class="logo-animation h-8 w-8" aria-hidden="true">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="triangle triangle-1" d="M30 20L50 60L10 60L30 20Z" fill="#3c973f" />
+                  <path class="triangle triangle-2" d="M30 100L10 60L50 60L30 100Z" fill="#2b7a2e" />
+                  <path class="triangle triangle-3" d="M90 100L70 60L110 60L90 100Z" fill="#2b7a2e" />
+                  <path class="triangle triangle-4" d="M60 40L90 100L30 100L60 40Z" fill="#5bb35e" />
+                </svg>
+              </div>
+              <span class="font-semibold text-xl">Study Hub</span>
+            </a>
+            <div class="flex items-center gap-4">
+              <a href="#" class="text-sm text-gray-600 hover:text-studyhub-500" onclick="navigateTo('login-page')">
+                Sign In
+              </a>
+              <button class="primary text-sm px-4 py-2" onclick="navigateTo('register-page')">
+                Join Us
+              </button>
+            </div>
+          </div>
+        </header>
+        
+        <main class="flex-1 flex">
+          <div class="hidden lg:block lg:w-1/2 relative">
+            <img 
+              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+              alt="Campus entrance" 
+              class="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-studyhub-900/20 to-transparent"></div>
+          </div>
+          
+          <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+            <div class="max-w-md w-full fade-in">
+              <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold mb-2">Welcome back</h1>
+                <p class="text-gray-600">Sign in to your account</p>
+              </div>
+              
+              <form id="login-form" class="space-y-6">
+                <div class="space-y-2">
+                  <label for="login-email">Email</label>
+                  <input
+                    id="login-email"
+                    type="email"
+                    placeholder="johnsmith@gmail.com"
+                    required
+                    aria-describedby="login-email-error"
+                  />
+                  <div id="login-email-error" class="error-message"></div>
+                </div>
+                
+                <div class="space-y-2">
+                  <div class="flex justify-between items-baseline">
+                    <label for="login-password">Password</label>
+                    <a href="#" class="text-xs text-studyhub-600 hover:underline">
+                      Forgot password?
+                    </a>
+                  </div>
+                  <div class="relative">
+                    <input
+                      id="login-password"
+                      type="password"
+                      placeholder="••••••••"
+                      required
+                      aria-describedby="login-password-error"
+                    />
+                    <button 
+                      type="button"
+                      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 ghost"
+                      onclick="togglePasswordVisibility('login-password')"
+                      aria-label="Toggle password visibility"
+                    >
+                      <span id="login-password-icon">👁️</span>
+                    </button>
+                    <div id="login-password-error" class="error-message"></div>
+                  </div>
+                </div>
+                
+                <button 
+                  type="submit" 
+                  class="primary w-full h-11"
+                >
+                  Sign In
+                </button>
+                
+                <div class="text-center text-sm text-gray-600">
+                  Don't have an account?
+                  <a href="#" class="text-studyhub-600 hover:underline font-medium ml-1" onclick="navigateTo('register-page')">
+                    Sign up
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    
+    <!-- Register Page -->
+    <div id="register-page" class="page">
+      <div class="min-h-screen flex flex-col">
+        <header class="border-b border-gray-200 py-4 px-6">
+          <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="flex items-center gap-2" onclick="navigateTo('index-page')" aria-label="Study Hub Home">
+              <div class="logo-animation h-8 w-8" aria-hidden="true">
+                <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path class="triangle triangle-1" d="M30 20L50 60L10 60L30 20Z" fill="#3c973f" />
+                  <path class="triangle triangle-2" d="M30 100L10 60L50 60L30 100Z" fill="#2b7a2e" />
+                  <path class="triangle triangle-3" d="M90 100L70 60L110 60L90 100Z" fill="#2b7a2e" />
+                  <path class="triangle triangle-4" d="M60 40L90 100L30 100L60 40Z" fill="#5bb35e" />
+                </svg>
+              </div>
+              <span class="font-semibold text-xl">Study Hub</span>
+            </a>
+            <div class="flex items-center gap-4">
+              <a href="#" class="text-sm text-gray-600 hover:text-studyhub-500" onclick="navigateTo('login-page')">
+                Sign In
+              </a>
+              <button class="primary text-sm px-4 py-2" onclick="navigateTo('register-page')">
+                Join Us
+              </button>
+            </div>
+          </div>
+        </header>
+        
+        <main class="flex-1 flex">
+          <div class="hidden lg:block lg:w-1/2 relative">
+            <img 
+              src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80"
+              alt="Campus entrance" 
+              class="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-r from-studyhub-900/20 to-transparent"></div>
+          </div>
+          
+          <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+            <div class="max-w-md w-full fade-in">
+              <div class="text-center mb-8">
+                <h1 class="text-3xl font-bold mb-2">Sign up</h1>
+                <p class="text-gray-600">Join us today on Study Hub!</p>
+              </div>
+              
+              <form id="register-form" class="space-y-6">
+                <div class="space-y-2">
+                  <label for="register-fullname">Full name</label>
+                  <input
+                    id="register-fullname"
+                    placeholder="John Smith"
+                    required
+                    aria-describedby="register-fullname-error"
+                  />
+                  <div id="register-fullname-error" class="error-message"></div>
+                </div>
+                
+                <div class="space-y-2">
+                  <label for="register-email">Email</label>
+                  <input
+                    id="register-email"
+                    type="email"
+                    placeholder="johnsmith@gmail.com"
+                    required
+                    aria-describedby="register-email-error"
+                  />
+                  <div id="register-email-error" class="error-message"></div>
+                </div>
+                
+                <div class="space-y-2">
+                  <label for="register-password">Password</label>
+                  <div class="relative">
+                    <input
+                      id="register-password"
+                      type="password"
+                      placeholder="••••••••"
+                      required
+                      minlength="8"
+                      aria-describedby="register-password-error"
+                    />
+                    <button 
+                      type="button"
+                      class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 ghost"
+                      onclick="togglePasswordVisibility('register-password')"
+                      aria-label="Toggle password visibility"
+                    >
+                      <span id="register-password-icon">👁️</span>
+                    </button>
+                    <div id="register-password-error" class="error-message"></div>
+                  </div>
+                </div>
+                
+                <div class="space-y-2">
+                  <label for="register-confirm-password">Re-enter password</label>
+                  <input
+                    id="register-confirm-password"
+                    type="password"
+                    placeholder="••••••••"
+                    required
+                    aria-describedby="register-confirm-password-error"
+                  />
+                  <div id="register-confirm-password-error" class="error-message"></div>
+                </div>
+                
+                <button 
+                  type="submit" 
+                  class="primary w-full h-11"
+                >
+                  Sign Up
+                </button>
+                
+                <div class="text-center text-sm text-gray-600">
+                  Already have an account?
+                  <a href="#" class="text-studyhub-600 hover:underline font-medium ml-1" onclick="navigateTo('login-page')">
+                    Sign in
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    
+    <!-- Profile Page -->
+    <div id="profile-page" class="page">
+      <div class="min-h-screen flex flex-col bg-gray-50">
+        <!-- Navigation Bar with user logged in -->
+        <header class="border-b border-gray-200 bg-white py-4 px-6 sticky top-0 z-50 w-full">
+          <div class="container mx-auto">
+            <div class="flex h-16 items-center justify-between">
+              <!-- Logo -->
+              <a href="#" class="flex items-center gap-2" onclick="navigateTo('index-page')" aria-label="Study Hub Home">
+                <div class="logo-animation h-8 w-8" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="triangle triangle-1" d="M30 20L50 60L10 60L30 20Z" fill="#3c973f" />
+                    <path class="triangle triangle-2" d="M30 100L10 60L50 60L30 100Z" fill="#2b7a2e" />
+                    <path class="triangle triangle-3" d="M90 100L70 60L110 60L90 100Z" fill="#2b7a2e" />
+                    <path class="triangle triangle-4" d="M60 40L90 100L30 100L60 40Z" fill="#5bb35e" />
+                  </svg>
+                </div>
+                <span class="font-semibold text-xl">Study Hub</span>
+              </a>
+              
+              <!-- Navigation Links -->
+              <nav class="hidden md:flex items-center space-x-6" aria-label="Main navigation">
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Upload Notes</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600" onclick="navigateTo('browse-page')">Browse Materials</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Study Tools</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Support Center</a>
+              </nav>
+              
+              <!-- User Button -->
+              <div class="flex items-center gap-3">
+                <button class="ghost rounded-full w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200" onclick="navigateTo('profile-page')" aria-label="User profile">
+                  <span class="text-sm font-medium text-studyhub-700">JS</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        
+        <main class="flex-1 py-8">
+          <div class="container mx-auto px-4">
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8 fade-in">
+              <div class="flex flex-col md:flex-row gap-8 items-start">
+                <!-- Profile Image and Upload Button -->
+                <div class="flex flex-col items-center">
+                  <div class="w-32 h-32 rounded-full bg-studyhub-100 mb-4 relative overflow-hidden">
+                    <img 
+                      id="profile-image"
+                      src="https://randomuser.me/api/portraits/men/34.jpg" 
+                      alt="User profile" 
+                      class="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                    <button class="absolute bottom-0 inset-x-0 bg-studyhub-500/80 text-white text-xs py-1">
+                      Change Photo
+                    </button>
+                  </div>
+                  <h2 class="text-xl font-semibold mb-1" id="profile-name">John Smith</h2>
+                  <p class="text-gray-500 text-sm" id="profile-email">johnsmith@gmail.com</p>
+                </div>
+                
+                <!-- Profile Information -->
+                <div class="flex-1">
+                  <h3 class="font-semibold text-lg mb-4">Profile Information</h3>
+                  
+                  <form id="profile-form" class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                      <div class="space-y-2">
+                        <label for="profile-fullname">Full Name</label>
+                        <input
+                          id="profile-fullname"
+                          value="John Smith"
+                          aria-describedby="profile-fullname-error"
+                        />
+                        <div id="profile-fullname-error" class="error-message"></div>
+                      </div>
+                      
+                      <div class="space-y-2">
+                        <label for="profile-email-input">Email</label>
+                        <input
+                          id="profile-email-input"
+                          type="email"
+                          value="johnsmith@gmail.com"
+                          aria-describedby="profile-email-error"
+                        />
+                        <div id="profile-email-error" class="error-message"></div>
+                      </div>
+                      
+                      <div class="space-y-2">
+                        <label for="profile-university">University</label>
+                        <input
+                          id="profile-university"
+                          placeholder="Add your university"
+                          aria-describedby="profile-university-error"
+                        />
+                        <div id="profile-university-error" class="error-message"></div>
+                      </div>
+                      
+                      <div class="space-y-2">
+                        <label for="profile-major">Major</label>
+                        <input
+                          id="profile-major"
+                          placeholder="Add your major"
+                          aria-describedby="profile-major-error"
+                        />
+                        <div id="profile-major-error" class="error-message"></div>
+                      </div>
+                      
+                      <div class="space-y-2">
+                        <label for="profile-year">Year of Study</label>
+                        <input
+                          id="profile-year"
+                          placeholder="Add your year of study"
+                          aria-describedby="profile-year-error"
+                        />
+                        <div id="profile-year-error" class="error-message"></div>
+                      </div>
+                    </div>
+                    
+                    <div class="pt-2 flex justify-end">
+                      <button type="submit" class="primary px-6 py-2">
+                        Save Changes
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <div class="fade-in">
+              <h3 class="font-semibold text-lg mb-4">My Uploads</h3>
+              
+              <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl p-4 border border-gray-100 hover:shadow-md transition-shadow">
+                  <div class="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 class="font-semibold">Introduction to Economics</h4>
+                      <p class="text-sm text-gray-600">Fall 2023 • 42 pages</p>
+                    </div>
+                    <div class="bg-studyhub-100 text-studyhub-700 px-2 py-1 rounded text-xs font-medium">
+                      PDF
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500 mb-4">Complete semester notes covering supply and demand, market structures, and macroeconomic concepts.</p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">Uploaded 3 weeks ago</span>
+                    <div class="flex gap-2">
+                      <button class="ghost text-xs p-1">Edit</button>
+                      <button class="primary text-xs px-3 py-1">View</button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-4 border border-gray-100 hover:shadow-md transition-shadow">
+                  <div class="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 class="font-semibold">Organic Chemistry II</h4>
+                      <p class="text-sm text-gray-600">Winter 2023 • 38 pages</p>
+                    </div>
+                    <div class="bg-studyhub-100 text-studyhub-700 px-2 py-1 rounded text-xs font-medium">
+                      PDF
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500 mb-4">Comprehensive notes on reactions, mechanisms, and laboratory techniques for Organic Chemistry II.</p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">Uploaded 2 months ago</span>
+                    <div class="flex gap-2">
+                      <button class="ghost text-xs p-1">Edit</button>
+                      <button class="primary text-xs px-3 py-1">View</button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl p-4 border border-gray-100 hover:shadow-md transition-shadow">
+                  <div class="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 class="font-semibold">Calculus III</h4>
+                      <p class="text-sm text-gray-600">Spring 2023 • 56 pages</p>
+                    </div>
+                    <div class="bg-studyhub-100 text-studyhub-700 px-2 py-1 rounded text-xs font-medium">
+                      PDF
+                    </div>
+                  </div>
+                  <p class="text-sm text-gray-500 mb-4">Detailed notes on multivariable calculus, vector fields, and surface integrals with example problems.</p>
+                  <div class="flex justify-between items-center">
+                    <span class="text-xs text-gray-500">Uploaded 5 months ago</span>
+                    <div class="flex gap-2">
+                      <button class="ghost text-xs p-1">Edit</button>
+                      <button class="primary text-xs px-3 py-1">View</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-6 text-center">
+                <button class="outline px-6 py-2">
+                  Upload New Notes
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    
+    <!-- Browse Page -->
+    <div id="browse-page" class="page">
+      <div class="min-h-screen flex flex-col bg-gray-50">
+        <!-- Navigation Bar -->
+        <header class="border-b border-gray-200 bg-white py-4 px-6 sticky top-0 z-50 w-full">
+          <div class="container mx-auto">
+            <div class="flex h-16 items-center justify-between">
+              <!-- Logo -->
+              <a href="#" class="flex items-center gap-2" onclick="navigateTo('index-page')" aria-label="Study Hub Home">
+                <div class="logo-animation h-8 w-8" aria-hidden="true">
+                  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="triangle triangle-1" d="M30 20L50 60L10 60L30 20Z" fill="#3c973f" />
+                    <path class="triangle triangle-2" d="M30 100L10 60L50 60L30 100Z" fill="#2b7a2e" />
+                    <path class="triangle triangle-3" d="M90 100L70 60L110 60L90 100Z" fill="#2b7a2e" />
+                    <path class="triangle triangle-4" d="M60 40L90 100L30 100L60 40Z" fill="#5bb35e" />
+                  </svg>
+                </div>
+                <span class="font-semibold text-xl">Study Hub</span>
+              </a>
+              
+              <!-- Navigation Links -->
+              <nav class="hidden md:flex items-center space-x-6" aria-label="Main navigation">
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Upload Notes</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-studyhub-500">Browse Materials</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Study Tools</a>
+                <a href="#" class="text-sm font-medium transition-colors hover:text-studyhub-500 text-gray-600">Support Center</a>
+              </nav>
+              
+              <!-- User Button -->
+              <div class="flex items-center gap-3">
+                <button class="ghost rounded-full w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-gray-200" onclick="navigateTo('profile-page')" aria-label="User profile">
+                  <span class="text-sm font-medium text-studyhub-700">JS</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+        
+        <main class="flex-1 py-8">
+          <div class="container mx-auto px-4">
+            <div class="bg-white rounded-xl shadow-sm p-6 mb-8 fade-in">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label for="semester" class="block text-sm font-medium text-gray-700 mb-1">
+                    Semester Notes
+                  </label>
+                  <input
+                    id="semester"
+                    placeholder="Semester Notes"
+                  />
+                </div>
+                
+                <div>
+                  <label for="courseYear" class="block text-sm font-medium text-gray-700 mb-1">
+                    Course Year
+                  </label>
+                  <input
+                    id="courseYear"
+                    placeholder="Course Year"
+                  />
+                </div>
+                
+                <div class="flex items-end">
+                  <button id="search-button" class="primary w-full h-10">
+                    <svg class="inline-block w-4 h-4 mr-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    Search
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="fade-in">
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Browse Notes</h2>
+                <div class="relative">
+                  <button id="filter-button" class="outline flex items-center gap-1 text-sm px-3 py-1" aria-expanded="false" aria-haspopup="true">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    Filter
+                  </button>
+                  <div id="filter-dropdown" class="hidden absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-md shadow-md w-40 z-10">
+                    <div class="py-1">
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Most Popular</a>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Latest Uploads</a>
+                      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Most Downloaded</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-12">
+                <!-- Note Cards -->
+                <div class="card h-full group fade-in">
+                  <div class="p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                      <div class="h-8 w-8 bg-studyhub-100 text-studyhub-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs font-medium">N</span>
+                      </div>
+                      <span class="text-sm font-medium">NoteNavigator</span>
+                    </div>
+                    
+                    <h3 class="font-semibold mb-1">Explore Your Notes</h3>
+                    <p class="text-sm text-gray-600">Fall 2023 Semester Notes</p>
+                    
+                    <div class="flex items-center text-xs text-gray-500 mb-3">
+                      <div class="flex items-center gap-1 mr-3 text-studyhub-600">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                        <span>Popular</span>
+                      </div>
+                      <div class="flex items-center gap-1">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>542 notes downloads</span>
+                      </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                      <button class="primary text-xs px-3 py-1 h-8">
+                        Browse
+                      </button>
+                      <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Repeat similar note cards -->
+                <div class="card h-full group fade-in">
+                  <div class="p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                      <div class="h-8 w-8 bg-studyhub-100 text-studyhub-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs font-medium">A</span>
+                      </div>
+                      <span class="text-sm font-medium">AcademicAce</span>
+                    </div>
+                    
+                    <h3 class="font-semibold mb-1">Biology 101</h3>
+                    <p class="text-sm text-gray-600">Spring 2023 Semester Notes</p>
+                    
+                    <div class="flex items-center text-xs text-gray-500 mb-3">
+                      <div class="flex items-center gap-1 mr-3 text-studyhub-600">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                        <span>Popular</span>
+                      </div>
+                      <div class="flex items-center gap-1">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>321 notes downloads</span>
+                      </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                      <button class="primary text-xs px-3 py-1 h-8">
+                        Browse
+                      </button>
+                      <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card h-full group fade-in">
+                  <div class="p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                      <div class="h-8 w-8 bg-studyhub-100 text-studyhub-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs font-medium">S</span>
+                      </div>
+                      <span class="text-sm font-medium">StudyGenius</span>
+                    </div>
+                    
+                    <h3 class="font-semibold mb-1">Calculus II</h3>
+                    <p class="text-sm text-gray-600">Winter 2023 Semester Notes</p>
+                    
+                    <div class="flex items-center text-xs text-gray-500 mb-3">
+                      <div class="flex items-center gap-1">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>289 notes downloads</span>
+                      </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                      <button class="primary text-xs px-3 py-1 h-8">
+                        Browse
+                      </button>
+                      <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card h-full group fade-in">
+                  <div class="p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                      <div class="h-8 w-8 bg-studyhub-100 text-studyhub-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs font-medium">E</span>
+                      </div>
+                      <span class="text-sm font-medium">EduExpert</span>
+                    </div>
+                    
+                    <h3 class="font-semibold mb-1">Psychology 201</h3>
+                    <p class="text-sm text-gray-600">Fall 2023 Semester Notes</p>
+                    
+                    <div class="flex items-center text-xs text-gray-500 mb-3">
+                      <div class="flex items-center gap-1 mr-3 text-studyhub-600">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                        <span>Popular</span>
+                      </div>
+                      <div class="flex items-center gap-1">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>476 notes downloads</span>
+                      </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                      <button class="primary text-xs px-3 py-1 h-8">
+                        Browse
+                      </button>
+                      <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="card h-full group fade-in">
+                  <div class="p-4">
+                    <div class="flex items-center gap-2 mb-3">
+                      <div class="h-8 w-8 bg-studyhub-100 text-studyhub-600 rounded-full flex items-center justify-center">
+                        <span class="text-xs font-medium">L</span>
+                      </div>
+                      <span class="text-sm font-medium">LectureGenius</span>
+                    </div>
+                    
+                    <h3 class="font-semibold mb-1">Chemistry 101</h3>
+                    <p class="text-sm text-gray-600">Summer 2023 Semester Notes</p>
+                    
+                    <div class="flex items-center text-xs text-gray-500 mb-3">
+                      <div class="flex items-center gap-1">
+                        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="10"/>
+                          <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                        <span>198 notes downloads</span>
+                      </div>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                      <button class="primary text-xs px-3 py-1 h-8">
+                        Browse
+                      </button>
+                      <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Course Notes</h2>
+                <div class="flex items-center gap-2 text-sm text-gray-500">
+                  <span>1 of 14</span>
+                  <button class="ghost h-8 w-8" aria-label="Next page">
+                    <svg class="rotate-90 w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 19V5M5 12l7-7 7 7"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              
+              <div class="space-y-4">
+                <!-- Course Notes -->
+                <div class="bg-white rounded-xl border border-gray-100 p-4 flex justify-between items-center fade-in">
+                  <div class="flex items-center gap-4">
+                    <div class="h-12 w-12 bg-studyhub-100 text-studyhub-600 rounded-md flex items-center justify-center">
+                      <span class="font-medium">N</span>
+                    </div>
+                    
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <h3 class="font-semibold">NoteSync</h3>
+                        <span class="text-sm text-gray-500">LectureLink Hub</span>
+                      </div>
+                      <p class="text-sm text-gray-500">Filter Year, Semester</p>
+                      <div class="flex items-center gap-3 mt-1 text-xs">
+                        <span class="text-gray-400">•</span>
+                        <span>Sync Fast</span>
+                        <span class="text-gray-400">•</span>
+                        <span>View Course Notes</span>
+                      </div>
+                      <div class="flex items-center text-xs text-gray-500 mt-2">
+                        <div class="flex items-center gap-1 mr-3 text-studyhub-600">
+                          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19V5M5 12l7-7 7 7"/>
+                          </svg>
+                          <span>Popular</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                          <span>•</span>
+                          <span>2K NoteSync Users</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center gap-3">
+                    <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                      </svg>
+                    </button>
+                    <button class="primary px-4 py-2">
+                      Sync
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl border border-gray-100 p-4 flex justify-between items-center fade-in">
+                  <div class="flex items-center gap-4">
+                    <div class="h-12 w-12 bg-studyhub-100 text-studyhub-600 rounded-md flex items-center justify-center">
+                      <span class="font-medium">L</span>
+                    </div>
+                    
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <h3 class="font-semibold">LectureSync</h3>
+                        <span class="text-sm text-gray-500">StudyGuide Central</span>
+                      </div>
+                      <p class="text-sm text-gray-500">Filter Year, Semester</p>
+                      <div class="flex items-center gap-3 mt-1 text-xs">
+                        <span class="text-gray-400">•</span>
+                        <span>Sync Fast</span>
+                        <span class="text-gray-400">•</span>
+                        <span>View Course Notes</span>
+                      </div>
+                      <div class="flex items-center text-xs text-gray-500 mt-2">
+                        <div class="flex items-center gap-1 mr-3 text-studyhub-600">
+                          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 19V5M5 12l7-7 7 7"/>
+                          </svg>
+                          <span>Popular</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                          <span>•</span>
+                          <span>1.8K LectureSync Users</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center gap-3">
+                    <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                      </svg>
+                    </button>
+                    <button class="primary px-4 py-2">
+                      Sync
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="bg-white rounded-xl border border-gray-100 p-4 flex justify-between items-center fade-in">
+                  <div class="flex items-center gap-4">
+                    <div class="h-12 w-12 bg-studyhub-100 text-studyhub-600 rounded-md flex items-center justify-center">
+                      <span class="font-medium">S</span>
+                    </div>
+                    
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <h3 class="font-semibold">StudyShare</h3>
+                        <span class="text-sm text-gray-500">Note Exchange Network</span>
+                      </div>
+                      <p class="text-sm text-gray-500">Filter Year, Semester</p>
+                      <div class="flex items-center gap-3 mt-1 text-xs">
+                        <span class="text-gray-400">•</span>
+                        <span>Sync Fast</span>
+                        <span class="text-gray-400">•</span>
+                        <span>View Course Notes</span>
+                      </div>
+                      <div class="flex items-center text-xs text-gray-500 mt-2">
+                        <div class="flex items-center gap-1">
+                          <span>•</span>
+                          <span>1.5K StudyShare Users</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center gap-3">
+                    <button class="ghost h-8 w-8" aria-label="Save to favorites">
+                      <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+                      </svg>
+                    </button>
+                    <button class="primary px-4 py-2">
+                      Sync
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Simulated database using localStorage
+    const db = {
+      users: JSON.parse(localStorage.getItem('studyhub-users')) || [],
+      notes: JSON.parse(localStorage.getItem('studyhub-notes')) || [],
+      currentUser: JSON.parse(localStorage.getItem('studyhub-currentUser')) || null,
+      
+      init() {
+        if (this.users.length === 0) {
+          // Add some demo users if none exist
+          this.users = [
+            {
+              id: 1,
+              fullName: "John Smith",
+              email: "johnsmith@gmail.com",
+              password: "password123",
+              university: "State University",
+              major: "Computer Science",
+              year: "Junior"
+            }
+          ];
+          this.saveUsers();
+        }
+        
+        if (this.notes.length === 0) {
+          // Add some demo notes if none exist
+          this.notes = [
+            {
+              id: 1,
+              userId: 1,
+              title: "Introduction to Economics",
+              semester: "Fall 2023",
+              pages: 42,
+              description: "Complete semester notes covering supply and demand, market structures, and macroeconomic concepts.",
+              uploadDate: "2023-10-15",
+              fileType: "PDF"
+            },
+            {
+              id: 2,
+              userId: 1,
+              title: "Organic Chemistry II",
+              semester: "Winter 2023",
+              pages: 38,
+              description: "Comprehensive notes on reactions, mechanisms, and laboratory techniques for Organic Chemistry II.",
+              uploadDate: "2023-03-22",
+              fileType: "PDF"
+            },
+            {
+              id: 3,
+              userId: 1,
+              title: "Calculus III",
+              semester: "Spring 2023",
+              pages: 56,
+              description: "Detailed notes on multivariable calculus, vector fields, and surface integrals with example problems.",
+              uploadDate: "2023-06-10",
+              fileType: "PDF"
+            }
+          ];
+          this.saveNotes();
+        }
+      },
+      
+      saveUsers() {
+        localStorage.setItem('studyhub-users', JSON.stringify(this.users));
+      },
+      
+      saveNotes() {
+        localStorage.setItem('studyhub-notes', JSON.stringify(this.notes));
+      },
+      
+      setCurrentUser(user) {
+        this.currentUser = user;
+        localStorage.setItem('studyhub-currentUser', JSON.stringify(user));
+      },
+      
+      clearCurrentUser() {
+        this.currentUser = null;
+        localStorage.removeItem('studyhub-currentUser');
+      },
+      
+      getUserByEmail(email) {
+        return this.users.find(user => user.email === email);
+      },
+      
+      addUser(user) {
+        const newUser = {
+          ...user,
+          id: this.users.length > 0 ? Math.max(...this.users.map(u => u.id)) + 1 : 1
+        };
+        this.users.push(newUser);
+        this.saveUsers();
+        return newUser;
+      },
+      
+      updateUser(updatedUser) {
+        const index = this.users.findIndex(user => user.id === updatedUser.id);
+        if (index !== -1) {
+          this.users[index] = updatedUser;
+          this.saveUsers();
+          if (this.currentUser && this.currentUser.id === updatedUser.id) {
+            this.setCurrentUser(updatedUser);
+          }
+          return true;
+        }
+        return false;
+      },
+      
+      getNotesByUserId(userId) {
+        return this.notes.filter(note => note.userId === userId);
+      }
+    };
+    
+    // Initialize the database
+    db.init();
+    
+    // Get current year for footer
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+    
+    // Toggle password visibility
+    function togglePasswordVisibility(inputId) {
+      const passwordInput = document.getElementById(inputId);
+      const passwordIcon = document.getElementById(`${inputId}-icon`);
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        passwordIcon.textContent = '👁️‍🗨️';
+      } else {
+        passwordInput.type = 'password';
+        passwordIcon.textContent = '👁️';
+      }
+    }
+    
+    // Show error message for a form field
+    function showError(fieldId, message) {
+      const field = document.getElementById(fieldId);
+      const errorElement = document.getElementById(`${fieldId}-error`);
+      
+      if (field && errorElement) {
+        field.classList.add('error');
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+      }
+    }
+    
+    // Clear error message for a form field
+    function clearError(fieldId) {
+      const field = document.getElementById(fieldId);
+      const errorElement = document.getElementById(`${fieldId}-error`);
+      
+      if (field && errorElement) {
+        field.classList.remove('error');
+        errorElement.textContent = '';
+        errorElement.style.display = 'none';
+      }
+    }
+    
+    // Validate email format
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+    
+    // Validate password strength (at least 8 chars)
+    function validatePassword(password) {
+      return password.length >= 8;
+    }
+    
+    // Navigation between pages
+    function navigateTo(pageId) {
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show the requested page
+      const targetPage = document.getElementById(pageId);
+      if (targetPage) {
+        targetPage.classList.add('active');
+        targetPage.classList.add('fade-in');
+        
+        // Update UI based on authentication state
+        updateAuthUI();
+        
+        // Scroll to top
+        window.scrollTo(0, 0);
+        
+        // Update navigation highlight
+        highlightActiveNav(pageId);
+      }
+    }
+    
+    // Update UI based on authentication state
+    function updateAuthUI() {
+      const authButtons = document.querySelectorAll('[data-auth-state]');
+      const profileButtons = document.querySelectorAll('[data-profile-state]');
+      
+      if (db.currentUser) {
+        // User is logged in
+        authButtons.forEach(button => {
+          if (button.dataset.authState === 'logged-out') {
+            button.style.display = 'none';
+          } else if (button.dataset.authState === 'logged-in') {
+            button.style.display = 'block';
+          }
+        });
+        
+        profileButtons.forEach(button => {
+          button.style.display = 'block';
+        });
+        
+        // Update profile info if on profile page
+        if (document.getElementById('profile-page') {
+          updateProfileInfo();
+        }
+      } else {
+        // User is logged out
+        authButtons.forEach(button => {
+          if (button.dataset.authState === 'logged-out') {
+            button.style.display = 'block';
+          } else if (button.dataset.authState === 'logged-in') {
+            button.style.display = 'none';
+          }
+        });
+        
+        profileButtons.forEach(button => {
+          button.style.display = 'none';
+        });
+      }
+    }
+    
+    // Update profile information on profile page
+    function updateProfileInfo() {
+      if (db.currentUser) {
+        const profileNameElement = document.getElementById('profile-name');
+        const profileEmailElement = document.getElementById('profile-email');
+        const profileFullnameInput = document.getElementById('profile-fullname');
+        const profileEmailInput = document.getElementById('profile-email-input');
+        const profileUniversityInput = document.getElementById('profile-university');
+        const profileMajorInput = document.getElementById('profile-major');
+        const profileYearInput = document.getElementById('profile-year');
+        
+        if (profileNameElement) profileNameElement.textContent = db.currentUser.fullName;
+        if (profileEmailElement) profileEmailElement.textContent = db.currentUser.email;
+        if (profileFullnameInput) profileFullnameInput.value = db.currentUser.fullName;
+        if (profileEmailInput) profileEmailInput.value = db.currentUser.email;
+        if (profileUniversityInput) profileUniversityInput.value = db.currentUser.university || '';
+        if (profileMajorInput) profileMajorInput.value = db.currentUser.major || '';
+        if (profileYearInput) profileYearInput.value = db.currentUser.year || '';
+      }
+    }
+    
+    // Highlight active navigation
+    function highlightActiveNav(pageId) {
+      document.querySelectorAll('nav a').forEach(link => {
+        link.classList.remove('text-studyhub-500');
+        link.classList.add('text-gray-600');
+      });
+      
+      if (pageId === 'browse-page') {
+        const browseLinks = document.querySelectorAll('a[onclick="navigateTo(\'browse-page\')"]');
+        browseLinks.forEach(link => {
+          link.classList.add('text-studyhub-500');
+          link.classList.remove('text-gray-600');
+        });
+      }
+    }
+    
+    // Filter dropdown
+    const filterButton = document.getElementById('filter-button');
+    const filterDropdown = document.getElementById('filter-dropdown');
+    
+    if (filterButton && filterDropdown) {
+      filterButton.addEventListener('click', function() {
+        const isExpanded = filterButton.getAttribute('aria-expanded') === 'true';
+        filterButton.setAttribute('aria-expanded', !isExpanded);
+        filterDropdown.classList.toggle('hidden');
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!filterButton.contains(event.target) && !filterDropdown.contains(event.target)) {
+          filterButton.setAttribute('aria-expanded', 'false');
+          filterDropdown.classList.add('hidden');
+        }
+      });
+    }
+    
+    // Simple toast notification
+    function showToast(message, type = 'success') {
+      // Create toast element if it doesn't exist
+      let toast = document.getElementById('toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'toast';
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.right = '20px';
+        toast.style.minWidth = '250px';
+        toast.style.padding = '12px 20px';
+        toast.style.borderRadius = '4px';
+        toast.style.color = 'white';
+        toast.style.zIndex = '1000';
+        toast.style.fontWeight = '500';
+        toast.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+        toast.style.transition = 'opacity 0.3s ease-in-out';
+        toast.style.opacity = '0';
+        document.body.appendChild(toast);
+      }
+      
+      // Set toast style based on type
+      if (type === 'success') {
+        toast.style.backgroundColor = 'var(--studyhub-500)';
+      } else if (type === 'error') {
+        toast.style.backgroundColor = 'var(--error-500)';
+      }
+      
+      // Set message and show toast
+      toast.textContent = message;
+      toast.style.opacity = '1';
+      
+      // Automatically hide after 3 seconds
+      setTimeout(() => {
+        toast.style.opacity = '0';
+      }, 3000);
+    }
+    
+    // Form submission handlers
+    document.addEventListener('DOMContentLoaded', function() {
+      // Login form handler
+      const loginForm = document.getElementById('login-form');
+      if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Clear previous errors
+          clearError('login-email');
+          clearError('login-password');
+          
+          const email = document.getElementById('login-email').value;
+          const password = document.getElementById('login-password').value;
+          
+          let isValid = true;
+          
+          // Validate email
+          if (!email) {
+            showError('login-email', 'Email is required');
+            isValid = false;
+          } else if (!validateEmail(email)) {
+            showError('login-email', 'Please enter a valid email');
+            isValid = false;
+          }
+          
+          // Validate password
+          if (!password) {
+            showError('login-password', 'Password is required');
+            isValid = false;
+          }
+          
+          if (isValid) {
+            // Simulate API call delay
+            setTimeout(() => {
+              const user = db.getUserByEmail(email);
+              
+              if (user && user.password === password) {
+                // Login successful
+                db.setCurrentUser(user);
+                showToast('Logged in successfully!');
+                setTimeout(() => navigateTo('browse-page'), 1000);
+              } else {
+                // Login failed
+                showError('login-email', 'Invalid email or password');
+                showError('login-password', 'Invalid email or password');
+                showToast('Invalid email or password', 'error');
+              }
+            }, 500);
+          }
+        });
+      }
+      
+      // Register form handler
+      const registerForm = document.getElementById('register-form');
+      if (registerForm) {
+        registerForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Clear previous errors
+          clearError('register-fullname');
+          clearError('register-email');
+          clearError('register-password');
+          clearError('register-confirm-password');
+          
+          const fullName = document.getElementById('register-fullname').value;
+          const email = document.getElementById('register-email').value;
+          const password = document.getElementById('register-password').value;
+          const confirmPassword = document.getElementById('register-confirm-password').value;
+          
+          let isValid = true;
+          
+          // Validate full name
+          if (!fullName) {
+            showError('register-fullname', 'Full name is required');
+            isValid = false;
+          }
+          
+          // Validate email
+          if (!email) {
+            showError('register-email', 'Email is required');
+            isValid = false;
+          } else if (!validateEmail(email)) {
+            showError('register-email', 'Please enter a valid email');
+            isValid = false;
+          } else if (db.getUserByEmail(email)) {
+            showError('register-email', 'Email already registered');
+            isValid = false;
+          }
+          
+          // Validate password
+          if (!password) {
+            showError('register-password', 'Password is required');
+            isValid = false;
+          } else if (!validatePassword(password)) {
+            showError('register-password', 'Password must be at least 8 characters');
+            isValid = false;
+          }
+          
+          // Validate confirm password
+          if (!confirmPassword) {
+            showError('register-confirm-password', 'Please confirm your password');
+            isValid = false;
+          } else if (password !== confirmPassword) {
+            showError('register-confirm-password', 'Passwords do not match');
+            isValid = false;
+          }
+          
+          if (isValid) {
+            // Simulate API call delay
+            setTimeout(() => {
+              const newUser = {
+                fullName,
+                email,
+                password
+              };
+              
+              const user = db.addUser(newUser);
+              db.setCurrentUser(user);
+              
+              showToast('Account created successfully!');
+              setTimeout(() => navigateTo('browse-page'), 1000);
+            }, 500);
+          }
+        });
+      }
+      
+      // Profile form handler
+      const profileForm = document.getElementById('profile-form');
+      if (profileForm) {
+        profileForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          if (!db.currentUser) {
+            showToast('Please log in to update your profile', 'error');
+            return;
+          }
+          
+          // Clear previous errors
+          clearError('profile-fullname');
+          clearError('profile-email');
+          clearError('profile-university');
+          clearError('profile-major');
+          clearError('profile-year');
+          
+          const fullName = document.getElementById('profile-fullname').value;
+          const email = document.getElementById('profile-email-input').value;
+          const university = document.getElementById('profile-university').value;
+          const major = document.getElementById('profile-major').value;
+          const year = document.getElementById('profile-year').value;
+          
+          let isValid = true;
+          
+          // Validate full name
+          if (!fullName) {
+            showError('profile-fullname', 'Full name is required');
+            isValid = false;
+          }
+          
+          // Validate email
+          if (!email) {
+            showError('profile-email', 'Email is required');
+            isValid = false;
+          } else if (!validateEmail(email)) {
+            showError('profile-email', 'Please enter a valid email');
+            isValid = false;
+          } else if (email !== db.currentUser.email && db.getUserByEmail(email)) {
+            showError('profile-email', 'Email already registered');
+            isValid = false;
+          }
+          
+          if (isValid) {
+            // Simulate API call delay
+            setTimeout(() => {
+              const updatedUser = {
+                ...db.currentUser,
+                fullName,
+                email,
+                university,
+                major,
+                year
+              };
+              
+              if (db.updateUser(updatedUser)) {
+                showToast('Profile updated successfully!');
+                updateProfileInfo();
+              } else {
+                showToast('Failed to update profile', 'error');
+              }
+            }, 500);
+          }
+        });
+      }
+      
+      // Search button handler
+      const searchButton = document.getElementById('search-button');
+      if (searchButton) {
+        searchButton.addEventListener('click', function() {
+          const semester = document.getElementById('semester').value || 'all semesters';
+          const courseYear = document.getElementById('courseYear').value || 'all years';
+          
+          showToast(`Searching for notes in ${semester} for ${courseYear}`);
+        });
+      }
+    });
+    
+    // Initial page setup based on URL and authentication state
+    document.addEventListener('DOMContentLoaded', function() {
+      const path = window.location.pathname;
+      
+      // Check if we need to navigate to a specific page based on URL
+      if (path.includes('register')) {
+        navigateTo('register-page');
+      } else if (path.includes('login')) {
+        navigateTo('login-page');
+      } else if (path.includes('profile')) {
+        if (db.currentUser) {
+          navigateTo('profile-page');
+        } else {
+          navigateTo('login-page');
+        }
+      } else if (path.includes('browse')) {
+        navigateTo('browse-page');
+      } else {
+        navigateTo('index-page');
+      }
+      
+      // Update UI based on authentication state
+      updateAuthUI();
+    });
+  </script>
+</body>
+</html>
